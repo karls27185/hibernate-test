@@ -2,12 +2,16 @@ package com.javastart.hibernatetest;
 
 import com.javastart.hibernatetest.dao.AccountDAO;
 import com.javastart.hibernatetest.entity.Account;
+import com.javastart.hibernatetest.entity.Bill;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.data.jpa.JpaRepositoriesAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class,
         JpaRepositoriesAutoConfiguration.class})
@@ -22,8 +26,17 @@ public class Application implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         Account account = new Account("Lori", 15);
+        List<Bill> bills = new ArrayList<>();
+        bills.add(new Bill(10));
+        bills.add(new Bill(11));
+        bills.add(new Bill(12));
+        bills.add(new Bill(13));
+        bills.add(new Bill(14));
+        account.setBills(bills);
         Account saveAccount = accountDAO.save(account);
 
-        System.out.println(accountDAO.findById(saveAccount.getAccountId()));
+        Account accountFromDB = accountDAO.findById(saveAccount.getAccountId());
+        System.out.println(accountFromDB);
+        System.out.println(accountFromDB.getBills());
     }
 }

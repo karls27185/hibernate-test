@@ -15,12 +15,12 @@ import java.util.Properties;
 
 @Configuration
 @EnableTransactionManagement
-@PropertySource("classpath: db.properties")
+@PropertySource("classpath:db.properties")
 public class HibernateConfiguration {
 
     @Autowired
     private Environment environment;
-
+    @Bean
     public LocalSessionFactoryBean sessionFactory() {
         LocalSessionFactoryBean localSessionFactoryBean = new LocalSessionFactoryBean();
         localSessionFactoryBean.setDataSource(basicDataSource());
@@ -37,6 +37,7 @@ public class HibernateConfiguration {
         return hibernateTransactionManager;
     }
 
+    @Bean
     public BasicDataSource basicDataSource() {
         BasicDataSource basicDataSource = new BasicDataSource();
         basicDataSource.setDriverClassName(environment.getProperty("jdbc.driverClassName"));
